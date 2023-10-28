@@ -1,4 +1,4 @@
-import marketHandler from './markets.js'
+import marketHandler from './articles.js'
 import sitemapPaginationHandler from './sitemap-pagination.js'
 
 const routes = [marketHandler, sitemapPaginationHandler]

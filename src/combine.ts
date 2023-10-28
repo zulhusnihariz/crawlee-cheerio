@@ -1,10 +1,10 @@
 import { Dataset, KeyValueStore } from 'crawlee'
-import { DOMAIN } from './lib/enums/domain.enum.js'
+import { HOSTNAME } from './lib/enums/domain.enum.js'
 
-const domains = Object.values(DOMAIN)
+const hostNames = Object.values(HOSTNAME)
 
-for (let i = 0; i < domains.length; i++) {
-  const domain = domains[i]
-  const dataset = await Dataset.open(domain)
-  await KeyValueStore.setValue(domain, (await dataset.getData()).items)
+for (let i = 0; i < hostNames.length; i++) {
+  const hostName = hostNames[i]
+  const dataset = await Dataset.open(hostName)
+  await KeyValueStore.setValue(hostName, (await dataset.getData()).items)
 }

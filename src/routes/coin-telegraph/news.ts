@@ -1,6 +1,6 @@
 import { Dataset } from 'crawlee'
 import { RouteHandler } from '..'
-import { DOMAIN, COIN_TELEGRAPH } from '../../lib/enums/domain.enum.js'
+import { HOSTNAME, COIN_TELEGRAPH } from '../../lib/enums/domain.enum.js'
 
 const handler: RouteHandler = {
   label: COIN_TELEGRAPH.NEWS,
@@ -14,7 +14,7 @@ const handler: RouteHandler = {
     const createdAt = $('.post-meta__publish-date time[datetime]').attr('datetime')
 
     if (title && content) {
-      const dataset = await Dataset.open(DOMAIN.COIN_TELEGRAPH)
+      const dataset = await Dataset.open(HOSTNAME.COIN_TELEGRAPH)
 
       await dataset.pushData({
         url: request.loadedUrl,
