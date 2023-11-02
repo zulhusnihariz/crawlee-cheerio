@@ -77,10 +77,65 @@ router.addDefaultHandler(async ({ $, enqueueLinks, log, request, body }) => {
       const createdAt = $('span.date time[datetime]').attr('datetime')
       const updatedAt = $('span.date-modified time[datetime]').attr('datetime')
 
-      console.log(title, content)
+      if (title && content) {
+        const dataset = await Dataset.open(HOSTNAME.BIT_COLUMNIST)
+
+        await dataset.pushData({
+          url: request.loadedUrl,
+          origin,
+          author,
+          title,
+          description,
+          content,
+          createdAt,
+          updatedAt,
+        })
+      }
+      break
+    }
+    case HOSTNAME.CRYPTO_POTATO: {
+      log.info(`enqueueing: ${request.url}`)
+      const url = new URL(request.url)
+
+      const origin = url.host
+      const author = $('.entry-user a').text().trim()
+      const title = $('.page-title h1').text().trim()
+      const description = ''
+      const content = $('div.coincodex-content').children('p').text()
+      const createdAt = $('.entry-date span.last-modified-timestamp').text().trim()
+      const updatedAt = $('.entry-date span.last-modified-timestamp').text().trim()
 
       if (title && content) {
-        const dataset = await Dataset.open(HOSTNAME.NFT_LATELY)
+        const dataset = await Dataset.open(HOSTNAME.CRYPTO_POTATO)
+
+        await dataset.pushData({
+          url: request.loadedUrl,
+          origin,
+          author,
+          title,
+          description,
+          content,
+          createdAt,
+          updatedAt,
+        })
+      }
+      break
+    }
+
+    case HOSTNAME.NFT_PLAZAS: {
+      log.info(`enqueueing: ${request.url}`)
+      const url = new URL(request.url)
+
+      const origin = url.host
+      const author = ''
+      const title = $('h1.post_title').text().trim()
+      const description = ''
+      const content = $('div.entry-content').children('p').text()
+      const createdAt = ''
+      const updatedAt = ''
+
+      if (title && content) {
+        const dataset = await Dataset.open(HOSTNAME.NFT_PLAZAS)
 
         await dataset.pushData({
           url: request.loadedUrl,

@@ -4,11 +4,14 @@
   "type": "module",
   "description": "This is an example of a Crawlee project.",
   "dependencies": {
-    "crawlee": "^3.0.0"
+    "crawlee": "^3.0.0",
+    "sqlite": "^5.0.1",
+    "sqlite3": "^5.1.6"
   },
   "devDependencies": {
     "@apify/tsconfig": "^0.1.0",
     "@types/node": "^18.0.0",
+    "@types/sqlite3": "^3.1.10",
     "prettier": "^3.0.3",
     "ts-node": "^10.8.0",
     "typescript": "^5.0.0"

@@ -7,6 +7,8 @@ const handler: RouteHandler = {
   handler: async ({ $, log, request }) => {
     log.info(`enqueueing: ${request.url}`)
 
+    const url = new URL(request.url)
+
     const author = $('div.post-meta__author-name').text().trim()
     const title = $('article h1').text().trim()
     const description = $('p.post__lead').text().trim()
@@ -18,6 +20,7 @@ const handler: RouteHandler = {
 
       await dataset.pushData({
         url: request.loadedUrl,
+        origin: url.host,
         author,
         title,
         description,
