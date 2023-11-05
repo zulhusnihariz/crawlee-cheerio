@@ -1,4 +1,3 @@
-import cron from 'node-cron'
 import { CheerioCrawler, Dataset } from 'crawlee'
 import { router } from './routes/'
 import { HOSTNAME, RSS_FEED } from './lib/enums/domain.enum'
@@ -40,7 +39,7 @@ async function extractLinksFromFeed(urls: string[]): Promise<string[]> {
   return startUrls
 }
 
-async function scrape() {
+export async function scrape() {
   const crawler = new CheerioCrawler({
     additionalMimeTypes: ['application/rss+xml'],
     requestHandler: router,
@@ -82,8 +81,3 @@ async function scrape() {
 
   await postData(datas)
 }
-
-cron.schedule('0 12 * * *', async () => await scrape(), {
-  runOnInit: true,
-  timezone: 'Asia/Singapore',
-})
