@@ -1,4 +1,4 @@
-import newsHandler from './news.js'
+import newsHandler from './news'
 
 const routes = [newsHandler]
 

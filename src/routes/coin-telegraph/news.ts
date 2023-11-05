@@ -1,6 +1,6 @@
 import { Dataset } from 'crawlee'
 import { RouteHandler } from '..'
-import { HOSTNAME, COIN_TELEGRAPH } from '../../lib/enums/domain.enum.js'
+import { HOSTNAME, COIN_TELEGRAPH } from '../../lib/enums/domain.enum'
 
 const handler: RouteHandler = {
   label: COIN_TELEGRAPH.NEWS,

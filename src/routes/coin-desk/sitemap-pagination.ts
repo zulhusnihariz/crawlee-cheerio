@@ -1,4 +1,4 @@
-import { FULL_DOMAIN, COIN_DESK } from '../../lib/enums/domain.enum.js'
+import { FULL_DOMAIN, COIN_DESK } from '../../lib/enums/domain.enum'
 import { RouteHandler } from '..'
 
 const handler: RouteHandler = {

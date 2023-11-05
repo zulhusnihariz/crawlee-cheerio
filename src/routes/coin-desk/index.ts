@@ -1,5 +1,5 @@
-import marketHandler from './articles.js'
-import sitemapPaginationHandler from './sitemap-pagination.js'
+import marketHandler from './articles'
+import sitemapPaginationHandler from './sitemap-pagination'
 
 const routes = [marketHandler, sitemapPaginationHandler]
 

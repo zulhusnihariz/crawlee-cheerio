@@ -1,7 +1,18 @@
 import { CheerioCrawlingContext, Dataset, Request, createCheerioRouter } from 'crawlee'
-import { HOSTNAME, FULL_DOMAIN, COIN_DESK, RSS_FEED } from '../lib/enums/domain.enum.js'
-import coinTelegraphRoute from './coin-telegraph/index.js'
-import coinDeskRoute from './coin-desk/index.js'
+import { HOSTNAME, FULL_DOMAIN, COIN_DESK, RSS_FEED } from '../lib/enums/domain.enum'
+import coinTelegraphRoute from './coin-telegraph'
+import coinDeskRoute from './coin-desk'
+
+export type Article = {
+  url: string
+  origin: string
+  author: string
+  title: string
+  description: string
+  content: string
+  createdAt: string
+  updatedAt: string
+}
 
 export type RouteHandler = {
   label: any
@@ -126,32 +137,41 @@ router.addDefaultHandler(async ({ $, enqueueLinks, log, request, body }) => {
       log.info(`enqueueing: ${request.url}`)
       const url = new URL(request.url)
 
-      const origin = url.host
-      const author = ''
-      const title = $('h1.post_title').text().trim()
-      const description = ''
-      const content = $('div.entry-content').children('p').text()
-      const createdAt = ''
-      const updatedAt = ''
-
-      if (title && content) {
-        const dataset = await Dataset.open(HOSTNAME.NFT_PLAZAS)
-
-        await dataset.pushData({
-          url: request.loadedUrl,
-          origin,
-          author,
-          title,
-          description,
-          content,
-          createdAt,
-          updatedAt,
-        })
+      const data = {
+        url: request.loadedUrl as string,
+        origin: url.host,
+        author: '',
+        title: $('h1.post_title').text().trim(),
+        description: '',
+        content: $('div.entry-content').children('p').text(),
+        createdAt: '',
+        updatedAt: '',
       }
+
+      if (data?.title && data?.content) await saveDataset(HOSTNAME.NFT_PLAZAS, data)
+
       break
     }
   }
 })
+
+async function saveDataset(
+  hostname: HOSTNAME,
+  { url, origin, author, title, description, content, createdAt, updatedAt }: Article
+) {
+  const dataset = await Dataset.open(hostname)
+
+  await dataset.pushData({
+    url,
+    origin,
+    author,
+    title,
+    description,
+    content,
+    createdAt,
+    updatedAt,
+  })
+}
 
 let routes = [...coinTelegraphRoute, ...coinDeskRoute]
 

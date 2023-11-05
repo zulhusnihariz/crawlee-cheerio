@@ -1,6 +1,6 @@
 import { Dataset } from 'crawlee'
-import { HOSTNAME, COIN_DESK } from '../../lib/enums/domain.enum.js'
-import { RouteHandler } from '../index.js'
+import { HOSTNAME, COIN_DESK } from '../../lib/enums/domain.enum'
+import { RouteHandler } from '..'
 
 const handler: RouteHandler = {
   label: COIN_DESK.ARTICLES,

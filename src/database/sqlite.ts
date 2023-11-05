@@ -18,10 +18,10 @@ export async function postData(datas: any[]) {
 
   let statement = await db.prepare(`
   INSERT OR REPLACE INTO articles (
-    title,
     url , 
     origin, 
     author, 
+    title,
     description, 
     content, 
     createdAt, 
@@ -45,4 +45,5 @@ export async function getData() {
   const results = await db.all('SELECT * FROM articles')
 
   await db.close()
+  return results
 }
