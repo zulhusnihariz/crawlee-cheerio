@@ -18,6 +18,9 @@ const handler: RouteHandler = {
     if (title && content) {
       const dataset = await Dataset.open(HOSTNAME.COIN_TELEGRAPH)
 
+      // NOTE: any changes made to the following need to also be reflected
+      // for (INSERT STATEMENT) in src/database/sqlite.ts;
+      // else, column name & value could be inaccurate
       await dataset.pushData({
         url: request.loadedUrl,
         origin: url.host,

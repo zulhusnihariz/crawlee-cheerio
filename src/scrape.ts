@@ -84,6 +84,6 @@ async function scrape() {
 }
 
 cron.schedule('0 12 * * *', async () => await scrape(), {
-  runOnInit: false,
+  runOnInit: true,
   timezone: 'Asia/Singapore',
 })
