@@ -25,10 +25,17 @@ app.get('/api/news', async (_, res) => {
 })
 
 // 12 PM every day
-cron.schedule('0 12 * * *', async () => await scrape(), {
-  runOnInit: true,
-  timezone: 'Asia/Singapore',
-})
+cron.schedule(
+  '0 12 * * *',
+  async () => {
+    console.log('initializing cron job...')
+    await scrape()
+  },
+  {
+    runOnInit: true,
+    timezone: 'Asia/Singapore',
+  }
+)
 
 app.listen(PORT, () => {
   console.log(`[server]: Server is running at http://localhost:${PORT}`)
