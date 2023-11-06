@@ -67,11 +67,19 @@ export async function scrape() {
   })
 
   const startUrls = await extractLinksFromFeed([
-    RSS_FEED.NFT_EVENING,
+    RSS_FEED.AMBCRYPTO,
+    RSS_FEED.BEINCRYPTO,
     RSS_FEED.BIT_COLUMNIST,
-    RSS_FEED.CRYPTO_POTATO,
-    RSS_FEED.NFT_PLAZAS,
+    RSS_FEED.BLOCKONOMI,
     RSS_FEED.COIN_DESK,
+    RSS_FEED.COIN_SPEAKER,
+    RSS_FEED.COIN_TELEGRAPH,
+    RSS_FEED.CRYPTO_NEWSZ,
+    RSS_FEED.CRYPTO_POTATO,
+    RSS_FEED.CRYPTO_SLATE,
+    RSS_FEED.DAILY_COIN,
+    RSS_FEED.NFT_EVENING,
+    RSS_FEED.NFT_PLAZAS,
   ])
 
   // filter out saved articles

@@ -42,7 +42,7 @@ export async function postData(datas: any[]) {
 export async function getData() {
   const db = await open({ filename: '/tmp/database.db', driver: sqlite3.Database })
 
-  const results = await db.all('SELECT * FROM articles')
+  const results = await db.all('SELECT * FROM articles ORDER BY createdAt DESC')
 
   await db.close()
   return results

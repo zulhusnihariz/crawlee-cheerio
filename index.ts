@@ -12,8 +12,9 @@ app.get('/news', async (_, res) => {
   res.send(data)
 })
 
+// 12 PM every day
 cron.schedule('0 12 * * *', async () => await scrape(), {
-  runOnInit: false,
+  runOnInit: true,
   timezone: 'Asia/Singapore',
 })
 
