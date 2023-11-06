@@ -13,7 +13,14 @@ function shuffleURLs(array: any[]) {
   }
 }
 
-async function extractLinksFromFeed(urls: string[]): Promise<string[]> {
+type RSSData = {
+  url: string
+  createdAt: string
+  title: string
+  author: string
+}
+
+async function extractLinksFromFeed(urls: string[]): Promise<{ url: string; userData: RSSData }[]> {
   const responses = await Promise.all(urls.map(url => fetch(url)))
 
   const xmls = []
@@ -26,13 +33,25 @@ async function extractLinksFromFeed(urls: string[]): Promise<string[]> {
     }
   }
 
-  const startUrls = xmls.reduce((acc, xml) => {
-    const $ = cheerio.load(xml, { xmlMode: true })
-    const urls = $('item link')
-      .map((_, x) => $(x).text().trim())
-      .toArray()
-    return acc.concat(urls)
-  }, [] as string[])
+  const startUrls = xmls.reduce(
+    (acc, xml) => {
+      const $ = cheerio.load(xml, { xmlMode: true })
+      const urls = $('item')
+        .map((_, x) => {
+          const url = $(x).children('link').text().trim()
+          let createdAt = $(x).children('pubDate').text().trim()
+          let title = $(x).children('title').text().trim()
+          let author = $(x).children('dc\\:creator').text().trim()
+
+          if (createdAt) createdAt = new Date(createdAt).toISOString()
+          return { url, userData: { url, createdAt, title, author } }
+        })
+        .toArray()
+
+      return acc.concat(urls)
+    },
+    [] as { url: string; userData: RSSData }[]
+  )
 
   shuffleURLs(startUrls)
 
@@ -52,21 +71,19 @@ export async function scrape() {
     RSS_FEED.BIT_COLUMNIST,
     RSS_FEED.CRYPTO_POTATO,
     RSS_FEED.NFT_PLAZAS,
+    RSS_FEED.COIN_DESK,
   ])
 
   // filter out saved articles
-
   let articles = await getData()
 
   for (let i = 0, total = articles.length; i < total; i++) {
     let article = articles[i]
-    let index = startUrls.findIndex(el => el === article.url)
+    let index = startUrls.findIndex(el => el.url === article.url)
     if (index >= 0) startUrls.splice(index, 1)
   }
-
   // end filter
 
-  startUrls.unshift(RSS_FEED.COIN_DESK)
   await crawler.run(startUrls)
 
   let datas: any[] = []

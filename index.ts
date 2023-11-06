@@ -7,7 +7,7 @@ import { getData } from './src/database/sqlite'
 const app = express()
 const PORT = 3000
 
-app.get('/', async (_, res) => {
+app.get('/news', async (_, res) => {
   let data = await getData()
   res.send(data)
 })
