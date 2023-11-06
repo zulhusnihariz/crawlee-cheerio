@@ -28,8 +28,12 @@ app.get('/api/news', async (_, res) => {
 cron.schedule(
   '0 12 * * *',
   async () => {
-    console.log('initializing cron job...')
-    await scrape()
+    try {
+      console.log('initializing cron job...')
+      await scrape()
+    } catch (e) {
+      console.error(`Cron error: ${e}`)
+    }
   },
   {
     runOnInit: true,
