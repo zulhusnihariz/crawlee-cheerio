@@ -1,11 +1,18 @@
 import cron from 'node-cron'
-import { scrape } from './src/scrape'
-
 import express from 'express'
+import cors from 'cors'
+import { scrape } from './src/scrape'
 import { getData, getTodaysData } from './src/database/sqlite'
 
 const app = express()
 const PORT = 3000
+
+app.use(
+  cors({
+    origin: ['*'],
+    methods: 'GET,POST,PATCH,DELETE',
+  })
+)
 
 app.get('/news/today', async (_, res) => {
   let data = await getTodaysData()
@@ -24,5 +31,5 @@ cron.schedule('0 12 * * *', async () => await scrape(), {
 })
 
 app.listen(PORT, () => {
-  console.log(`App is running on port: ${PORT}`)
+  console.log(`[server]: Server is running at http://localhost:${PORT}`)
 })
