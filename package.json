@@ -26,7 +26,7 @@
   "scripts": {
     "split": "node --no-warnings=ExperimentalWarning --loader ts-node/esm/transpile-only src/split.ts",
     "combine": "node --no-warnings=ExperimentalWarning --loader ts-node/esm/transpile-only src/combine.ts",
-    "dev": "nodemon index.ts",
+    "dev": "nodemon --ignore ./storage/ index.ts",
     "start": "npm run start:dev",
     "start:prod": "node dist/main.js",
     "start:dev": "node --no-warnings=ExperimentalWarning --loader ts-node/esm/transpile-only src/scrape.ts",
