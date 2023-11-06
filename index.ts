@@ -14,12 +14,12 @@ app.use(
   })
 )
 
-app.get('/news/today', async (_, res) => {
+app.get('/api/news/today', async (_, res) => {
   let data = await getTodaysData()
   res.send(data)
 })
 
-app.get('/news', async (_, res) => {
+app.get('/api/news', async (_, res) => {
   let data = await getData()
   res.send(data)
 })
