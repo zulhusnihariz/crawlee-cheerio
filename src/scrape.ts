@@ -107,4 +107,5 @@ export async function scrape() {
   }
 
   await postData(datas)
+  console.log(`data saved: ${new Date().toISOString()}`)
 }
