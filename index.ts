@@ -2,10 +2,15 @@ import cron from 'node-cron'
 import { scrape } from './src/scrape'
 
 import express from 'express'
-import { getData } from './src/database/sqlite'
+import { getData, getTodaysData } from './src/database/sqlite'
 
 const app = express()
 const PORT = 3000
+
+app.get('/news/today', async (_, res) => {
+  let data = await getTodaysData()
+  res.send(data)
+})
 
 app.get('/news', async (_, res) => {
   let data = await getData()

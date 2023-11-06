@@ -47,3 +47,12 @@ export async function getData() {
   await db.close()
   return results
 }
+
+export async function getTodaysData() {
+  const db = await open({ filename: '/tmp/database.db', driver: sqlite3.Database })
+
+  const results = await db.all(`SELECT * FROM articles WHERE date(createdAt) = date('now')`)
+
+  await db.close()
+  return results
+}
