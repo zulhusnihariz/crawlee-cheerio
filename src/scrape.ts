@@ -92,6 +92,8 @@ export async function scrape() {
   }
   // end filter
 
+  console.log(`total url: ${startUrls.length}`)
+
   await crawler.run(startUrls)
 
   let datas: any[] = []
