@@ -36,25 +36,20 @@ export async function postData(datas: any[]) {
   }
 
   await statement.finalize()
+
+  await db.exec(`
+  UPDATE articles
+    SET origin = REPLACE(
+    REPLACE(origin, 'www.', ''), '.com', '')
+    `)
+
   await db.close()
 }
 
 export async function getData() {
   const db = await open({ filename: '/tmp/database.db', driver: sqlite3.Database })
 
-  await db.exec(`
-  CREATE TABLE IF NOT EXISTS articles (
-    url TEXT,
-    origin TEXT,
-    author TEXT,
-    title TEXT PRIMARY KEY,
-    description TEXT,
-    content TEXT,
-    createdAt TEXT,
-    updatedAt TEXT)
-    `)
-
-  const results = await db.all('SELECT * FROM articles ORDER BY createdAt DESC')
+  const results = await db.all('SELECT * FROM articles WHERE LENGTH(content) < 3000 ORDER BY createdAt DESC')
 
   await db.close()
   return results
@@ -62,20 +57,7 @@ export async function getData() {
 
 export async function getTodaysData() {
   const db = await open({ filename: '/tmp/database.db', driver: sqlite3.Database })
-
-  await db.exec(`
-  CREATE TABLE IF NOT EXISTS articles (
-    url TEXT,
-    origin TEXT,
-    author TEXT,
-    title TEXT PRIMARY KEY,
-    description TEXT,
-    content TEXT,
-    createdAt TEXT,
-    updatedAt TEXT)
-    `)
-
-  const results = await db.all(`SELECT * FROM articles WHERE date(createdAt) = date('now')`)
+  const results = await db.all(`SELECT * FROM articles WHERE date(createdAt) = date('now') AND LENGTH(content) < 3000`)
 
   await db.close()
   return results
