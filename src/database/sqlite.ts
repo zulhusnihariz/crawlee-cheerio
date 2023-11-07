@@ -62,3 +62,21 @@ export async function getTodaysData() {
   await db.close()
   return results
 }
+
+export async function initTable() {
+  const db = await open({ filename: '/tmp/database.db', driver: sqlite3.Database })
+
+  await db.exec(`
+  CREATE TABLE IF NOT EXISTS articles (
+    url TEXT,
+    origin TEXT,
+    author TEXT,
+    title TEXT PRIMARY KEY,
+    description TEXT,
+    content TEXT,
+    createdAt TEXT,
+    updatedAt TEXT)
+    `)
+
+  await db.close()
+}

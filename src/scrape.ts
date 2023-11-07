@@ -4,7 +4,7 @@ import { HOSTNAME, RSS_FEED } from './lib/enums/domain.enum'
 
 import * as cheerio from 'cheerio'
 
-import { getData, postData } from './database/sqlite'
+import { getData, initTable, postData } from './database/sqlite'
 
 function shuffleURLs(array: any[]) {
   for (let i = array.length - 1; i > 0; i--) {
@@ -59,6 +59,7 @@ async function extractLinksFromFeed(urls: string[]): Promise<{ url: string; user
 }
 
 export async function scrape() {
+  await initTable()
   const crawler = new CheerioCrawler({
     additionalMimeTypes: ['application/rss+xml'],
     requestHandler: router,
