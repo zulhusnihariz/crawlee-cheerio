@@ -13,7 +13,8 @@ export async function postData(datas: any[]) {
     description TEXT,
     content TEXT,
     createdAt TEXT,
-    updatedAt TEXT)
+    updatedAt TEXT,
+    htmlContent TEXT)
     `)
 
   let statement = await db.prepare(`
@@ -25,9 +26,10 @@ export async function postData(datas: any[]) {
     description, 
     content, 
     createdAt, 
-    updatedAt
+    updatedAt,
+    htmlContent 
     )
-    VALUES (?,?,?,?,?,?,?,?)
+    VALUES (?,?,?,?,?,?,?,?,?)
     `)
 
   for (let i = 0; i < datas.length; i++) {
@@ -75,8 +77,17 @@ export async function initTable() {
     description TEXT,
     content TEXT,
     createdAt TEXT,
-    updatedAt TEXT)
+    updatedAt TEXT,
+    htmlContent TEXT)
     `)
 
   await db.close()
+}
+
+export async function addColumn(column: string) {
+  const db = await open({ filename: '/tmp/database.db', driver: sqlite3.Database })
+  const results = await db.exec(`ALTER TABLE articles ADD COLUMN ${column}`)
+
+  await db.close()
+  return results
 }
